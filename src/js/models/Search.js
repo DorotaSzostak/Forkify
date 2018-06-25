@@ -8,7 +8,7 @@ export default class Search {
     const proxy = "https://cors-anywhere.herokuapp.com/";
     const key = "32d833eac523e38eecb6b1c89f907ae8";
     try {
-    const res = await axios.get(`${proxy}http://food2fork.com/api/search?key=${key}&q=${this.query}`)
+    const res = await axios(`${proxy}http://food2fork.com/api/search?key=${key}&q=${this.query}`)
     this.results = res.data.recipes
     //console.log(this.results)
     } catch(error){
