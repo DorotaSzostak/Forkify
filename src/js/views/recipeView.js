@@ -1,15 +1,28 @@
 import {elements} from './base';
+import {Fractional} from 'fractional';
 
 export const clearResults = () => {
   elements.recipeView.innerHTML = '';
 };
+
+export const highlightSelected = id=> {
+  document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active')
+};
+
+const formatCount = count => {
+  if(count){
+    // count 2.5 --> 2 1/2
+    return (new Fraction(count)).add(new Fraction(0,2)).toString()
+  }
+      return '?'
+}
 
 const createIngredient = ingredient => `
     <li class="recipe__item">
         <svg class="recipe__icon">
             <use href="img/icons.svg#icon-check"></use>
         </svg>
-        <div class="recipe__count">${ingredient.count}</div>
+        <div class="recipe__count">${formatCount(ingredient.count)}</div>
         <div class="recipe__ingredient">
             <span class="recipe__unit">${ingredient.unit}</span>
             ${ingredient.ingredient}
@@ -52,12 +65,12 @@ export const renderRecipe = recipe => {
           <span class="recipe__info-text"> servings</span>
 
           <div class="recipe__info-buttons">
-              <button class="btn-tiny">
+              <button class="btn-tiny btn-decrease">
                   <svg>
                       <use href="img/icons.svg#icon-circle-with-minus"></use>
                   </svg>
               </button>
-              <button class="btn-tiny">
+              <button class="btn-tiny btn-increase">
                   <svg>
                       <use href="img/icons.svg#icon-circle-with-plus"></use>
                   </svg>
@@ -79,7 +92,7 @@ export const renderRecipe = recipe => {
       ${recipe.ingredients.map(el => createIngredient(el)).join(' ')}
       </ul>
 
-      <button class="btn-small recipe__btn">
+      <button class="btn-small recipe__btn recipe__btn--add">
           <svg class="search__icon">
               <use href="img/icons.svg#icon-shopping-cart"></use>
           </svg>
@@ -103,4 +116,14 @@ export const renderRecipe = recipe => {
   </div>
   `
   elements.recipeView.insertAdjacentHTML("afterbegin", markup);
+}
+
+export const updateServingsIngredients = recipe => {
+  //update servings
+  document.querySelector('.recipe__info-data--people').textContent = recipe.servings;
+  //update igredients
+  const countElements = document.querySelectorAll('.recipe__count');
+  countElements.forEach((el, index)=> {
+    el.textContent=formatCount(recipe.ingredients[index].count);
+  });
 }
