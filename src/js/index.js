@@ -17,7 +17,7 @@ import {elements, renderLoader, clearLoader} from './views/base';
 */
 
 const state = {};
-window.state = state;
+
 //SEARCH CONTROLLER
 const controlSearch = async ()=>{
   //1. Get query from view
@@ -172,6 +172,3 @@ elements.recipeView.addEventListener('click', e=> {
     controlLikes();
   }
 });
-
-const l = new List ();
-window.l = l;

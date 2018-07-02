@@ -12,7 +12,8 @@ export const highlightSelected = id=> {
 const formatCount = count => {
   if(count){
     // count 2.5 --> 2 1/2
-    return (new Fraction(count)).add(new Fraction(0,2)).toString()
+    const newCount = Math.round(count * 10000)/10000;
+    return (new Fraction(newCount)).add(new Fraction(0,2)).toString()
   }
       return '?'
 }
